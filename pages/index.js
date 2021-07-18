@@ -1,10 +1,26 @@
 import styled from 'styled-components'
 
-const Title = styled.h1`
-  font-size: 50px;
-  color: ${({ theme }) => theme.colors.primary};
+/**
+ * Criando um componente chamado 'Box' com a sintaxe do style-components
+ * que será uma div com a estilização passada entres as crases
+ */
+const Box = styled.div`
+  background: #fff;
+  border-radius: 8px;
 `
 
 export default function Home() {
-  return <Title>My page</Title>
+  return (
+    <main>
+      <Box>
+        Imagem
+      </Box>
+      <Box>
+        Bem Vindo
+      </Box>
+      <Box>
+        Comunidades
+      </Box>
+    </main>
+  )
 }
