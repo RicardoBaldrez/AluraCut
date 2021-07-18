@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import MainGrid from "../src/components/MainGrid";
 import Box from "../src/components/Box";
-import { AlurakutMenu, OrkutNostalgicIconSet } from "../src/lib/AlurakutCommons";
+import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from "../src/lib/AlurakutCommons";
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
 
 function ProfileSidebar(props) {
@@ -11,6 +11,12 @@ function ProfileSidebar(props) {
         src={`https://github.com/${props.githubUser}.png`}
         style={{ borderRadius: "8px" }}
       />
+      <hr />
+      <a className="boxLink" href={`https://github.com/${props.githubUser}`}>
+        @{props.githubUser}
+      </a>
+      <hr />
+      <AlurakutProfileSidebarMenuDefault />
     </Box>
   );
 }
