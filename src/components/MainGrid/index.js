@@ -6,7 +6,6 @@ const MainGrid = styled.main`
   margin: 0 auto;
   grid-gap: 10px; // Espaçamento entre os elementos do grid
   padding: 16px;
-  border: 2px solid;
 
   .profileArea {
     display: none;
