@@ -26,6 +26,28 @@ function ProfileSidebar(props) {
   );
 }
 
+function ProfileRelationsBox(props) {
+  return (
+    <ProfileRelationsBoxWrapper>
+      <h2 className="smallTitle">
+        {props.title} <span style={{ color: '#2E7BB4' }}>({props.items.length})</span>
+      </h2>
+      <ul>
+        {props.items.map((item) => {
+          return (
+            <li key={item.login}>
+              <a href={item.html_url}>
+                <img src={item.avatar_url} />
+                <span>{item.login}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </ProfileRelationsBoxWrapper>
+  )
+}
+
 export default function Home() {
   const githubUser = "RicardoBaldrez";
   const [followers, setFollowers] = useState([]);
@@ -95,24 +117,7 @@ export default function Home() {
           className="profileRelationsArea"
           style={{ gridArea: "profileRelationsArea" }}
         >
-          <ProfileRelationsBoxWrapper>
-            <h2 className="smallTitle">
-              Pessoas da comunidade <span style={{ color: '#2E7BB4' }}>({followers.length})</span>
-            </h2>
-            <ul>
-              {followers.map((follower) => {
-                return (
-                  <li key={follower.login}>
-                    <a href={follower.html_url}>
-                      <img src={follower.avatar_url} />
-                      <span>{follower.login}</span>
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </ProfileRelationsBoxWrapper>
-
+          <ProfileRelationsBox title="Pessoas da comunidade" items={followers} />
           <ProfileRelationsBoxWrapper>
             {communities.length > 0 ? (
               <>
@@ -134,8 +139,7 @@ export default function Home() {
               </>  
             ) : (
               <p style={{ color: '#308BC5', fontWeight: 'bold' }}>Nenhuma comunidade</p>
-            )
-          }
+            )}
           </ProfileRelationsBoxWrapper>
         </div>
       </MainGrid>
