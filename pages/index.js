@@ -24,6 +24,7 @@ function ProfileSidebar(props) {
 export default function Home() {
   const githubUser = "RicardoBaldrez";
   const [followers, setFollowers] = useState([]);
+  const [communities, setCommunities] = useState(['Valor inicial']);
 
   useEffect(() => {
     fetch(`https://api.github.com/users/peas/followers`)
@@ -54,6 +55,28 @@ export default function Home() {
               sexy="3"
             />
           </Box>
+          <Box>
+            <h2 className="subTitle">O que você deseja fazer?</h2>
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              const updatedCommunities = [...communities, 'alura React'];
+              setCommunities(updatedCommunities);
+            }}>
+              {console.log(communities)}
+              <input 
+                placeholder="Qual vai ser o nome da sua comunidade?" 
+                name="title"
+                aria-label="Qual vai ser o nome da sua comunidade?"
+                type="text"
+              />
+              <input 
+                placeholder="Coloque uma ERL para usarmos de capa" 
+                name="image"
+                aria-label="Coloque uma ERL para usarmos de capa"
+              />
+              <button>Criar comunidade</button>
+            </form>
+          </Box>
         </div>
         <div
           className="profileRelationsArea"
@@ -68,6 +91,20 @@ export default function Home() {
                     <a href={follower.html_url}>
                       <img src={follower.avatar_url} />
                       <span>{follower.login}</span>
+                    </a>
+                  </li>
+                )
+              })}
+            </ul>
+          </ProfileRelationsBoxWrapper>
+          <ProfileRelationsBoxWrapper>
+            <ul>
+              {communities.map((community, index) => {
+                return(
+                  <li key={community}>
+                    <a href={community.html_url}>
+                      <img src={`http://placehold.it/300x300`} />
+                      <span>{community} {index}</span>
                     </a>
                   </li>
                 )
