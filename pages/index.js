@@ -1,12 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import MainGrid from "../src/components/MainGrid";
 import Box from "../src/components/Box";
-import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from "../src/lib/AlurakutCommons";
-import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRelations';
+import {
+  AlurakutMenu,
+  AlurakutProfileSidebarMenuDefault,
+  OrkutNostalgicIconSet,
+} from "../src/lib/AlurakutCommons";
+import { ProfileRelationsBoxWrapper } from "../src/components/ProfileRelations";
 
 function ProfileSidebar(props) {
   return (
-    <Box>
+    // Transformando a div(que é a tag principal do componente Box) em aside para se comportar melhor semânticamente
+    <Box as="aside">
       <img
         src={`https://github.com/${props.githubUser}.png`}
         style={{ borderRadius: "8px" }}
@@ -24,7 +29,7 @@ function ProfileSidebar(props) {
 export default function Home() {
   const githubUser = "RicardoBaldrez";
   const [followers, setFollowers] = useState([]);
-  const [communities, setCommunities] = useState(['Valor inicial']);
+  const [communities, setCommunities] = useState([]);
 
   useEffect(() => {
     fetch(`https://api.github.com/users/peas/followers`)
@@ -39,13 +44,10 @@ export default function Home() {
         <div className="profileArea" style={{ gridArea: "profileArea" }}>
           <ProfileSidebar githubUser={githubUser} />
         </div>
-        <div 
-          className="welcomeArea" 
-          style={{ gridArea: "welcomeArea" }}
-        >
+        <div className="welcomeArea" style={{ gridArea: "welcomeArea" }}>
           <Box>
             <h1 className="title">Bem Vindo(a)</h1>
-            <OrkutNostalgicIconSet 
+            <OrkutNostalgicIconSet
               recados="5"
               fotos="16"
               fas="182"
@@ -57,20 +59,29 @@ export default function Home() {
           </Box>
           <Box>
             <h2 className="subTitle">O que você deseja fazer?</h2>
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              const updatedCommunities = [...communities, 'alura React'];
-              setCommunities(updatedCommunities);
-            }}>
-              {console.log(communities)}
-              <input 
-                placeholder="Qual vai ser o nome da sua comunidade?" 
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                // Armazenando/tratando os dados vindos do formuário
+                const dataForm = new FormData(e.target);
+                const newCommunity = {
+                  id: new Date().toISOString,
+                  title: dataForm.get("title"), // Pegando o valor do input com nome 'title'
+                  image: dataForm.get("image"), // Pegando o valor do input com nome 'image'
+                };
+                console.log(newCommunity);
+                const updatedCommunities = [...communities, newCommunity];
+                setCommunities(updatedCommunities);
+              }}
+            >
+              <input
+                placeholder="Qual vai ser o nome da sua comunidade?"
                 name="title"
                 aria-label="Qual vai ser o nome da sua comunidade?"
                 type="text"
               />
-              <input 
-                placeholder="Coloque uma ERL para usarmos de capa" 
+              <input
+                placeholder="Coloque uma ERL para usarmos de capa"
                 name="image"
                 aria-label="Coloque uma ERL para usarmos de capa"
               />
@@ -83,33 +94,45 @@ export default function Home() {
           style={{ gridArea: "profileRelationsArea" }}
         >
           <ProfileRelationsBoxWrapper>
-            <h2 className="smallTitle">Pessoas da comunidade ({ followers.length })</h2>
+            <h2 className="smallTitle">
+              Pessoas da comunidade ({followers.length})
+            </h2>
             <ul>
               {followers.map((follower) => {
-                return(
+                return (
                   <li key={follower.login}>
                     <a href={follower.html_url}>
                       <img src={follower.avatar_url} />
                       <span>{follower.login}</span>
                     </a>
                   </li>
-                )
+                );
               })}
             </ul>
           </ProfileRelationsBoxWrapper>
+
           <ProfileRelationsBoxWrapper>
-            <ul>
-              {communities.map((community, index) => {
-                return(
-                  <li key={community}>
-                    <a href={community.html_url}>
-                      <img src={`http://placehold.it/300x300`} />
-                      <span>{community} {index}</span>
-                    </a>
-                  </li>
-                )
-              })}
-            </ul>
+          {communities.length > 0 ? (
+            <>
+              <h2 className="smallTitle">
+                Minhas comunidades ({communities.length})
+              </h2>
+              <ul>
+                {communities.map((community) => {
+                  return (
+                    <li key={community.id}>
+                      <a href="#">
+                        <img src={community.image} />
+                        <span>{community.title}</span>
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </>  
+          ) : (
+            "Nenhuma comunidade"
+          )}
           </ProfileRelationsBoxWrapper>
         </div>
       </MainGrid>
