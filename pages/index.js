@@ -69,9 +69,9 @@ export default function Home() {
                   title: dataForm.get("title"), // Pegando o valor do input com nome 'title'
                   image: dataForm.get("image"), // Pegando o valor do input com nome 'image'
                 };
-                console.log(newCommunity);
                 const updatedCommunities = [...communities, newCommunity];
                 setCommunities(updatedCommunities);
+                e.target.reset();
               }}
             >
               <input
