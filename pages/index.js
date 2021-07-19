@@ -58,6 +58,29 @@ export default function Home() {
       .then((resp) => resp.json())
       .then((result) => setFollowers(result))
       .catch((error) => console.error(error));
+
+    // Dato -> API GraphQl
+    fetch('https://graphql.datocms.com/', {
+      method: 'POST',
+      headers: {
+        'Authorization': '86359e846f40f3ec96a118ef4adbcc', // Retirado de dentro do Dato na sessão 'Permissões' -> 'Tokens da API'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({ "query": `query {
+        allCommunities {
+          id
+          title
+          imageUrl
+          creatorSlug
+        }
+      }` })
+    })
+    .then((res) => res.json())
+    .then((finalRes) => {
+      setCommunities(finalRes.data.allCommunities);
+    })
+    .catch((error) => console.error(error));
   }, []);
 
   return (
@@ -125,11 +148,11 @@ export default function Home() {
                   Minhas comunidades <span style={{ color: '#2E7BB4' }}>({communities.length})</span>
                 </h2>
                 <ul>
-                  {communities.map((community, index) => {
+                  {communities.map((community) => {
                     return (
-                      <li key={`key-element__${index}`}>
+                      <li key={community.id}>
                         <a href="#">
-                          <img src={community.image} />
+                          <img src={community.imageUrl} />
                           <span>{community.title}</span>
                         </a>
                       </li>
