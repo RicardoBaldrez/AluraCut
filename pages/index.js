@@ -65,7 +65,6 @@ export default function Home() {
                 // Armazenando/tratando os dados vindos do formuário
                 const dataForm = new FormData(e.target);
                 const newCommunity = {
-                  id: new Date().toISOString,
                   title: dataForm.get("title"), // Pegando o valor do input com nome 'title'
                   image: dataForm.get("image"), // Pegando o valor do input com nome 'image'
                 };
@@ -79,11 +78,13 @@ export default function Home() {
                 name="title"
                 aria-label="Qual vai ser o nome da sua comunidade?"
                 type="text"
+                required
               />
               <input
                 placeholder="Coloque uma ERL para usarmos de capa"
                 name="image"
                 aria-label="Coloque uma ERL para usarmos de capa"
+                required
               />
               <button>Criar comunidade</button>
             </form>
@@ -118,9 +119,9 @@ export default function Home() {
                 Minhas comunidades ({communities.length})
               </h2>
               <ul>
-                {communities.map((community) => {
+                {communities.map((community, index) => {
                   return (
-                    <li key={community.id}>
+                    <li key={`key-element__${index}`}>
                       <a href="#">
                         <img src={community.image} />
                         <span>{community.title}</span>
