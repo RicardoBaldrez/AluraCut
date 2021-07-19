@@ -132,7 +132,7 @@ export default function Home() {
                 </ul>
               </>  
             ) : (
-              "Nenhuma comunidade"
+              <p style={{ color: '#308BC5', fontWeight: 'bold' }}>Nenhuma comunidade</p>
             )
           }
           </ProfileRelationsBoxWrapper>
