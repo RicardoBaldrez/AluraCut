@@ -34,7 +34,8 @@ export default function Home() {
   useEffect(() => {
     fetch(`https://api.github.com/users/peas/followers`)
       .then((resp) => resp.json())
-      .then((result) => setFollowers(result));
+      .then((result) => setFollowers(result))
+      .catch((error) => console.error(error));
   }, []);
 
   return (
@@ -96,7 +97,7 @@ export default function Home() {
         >
           <ProfileRelationsBoxWrapper>
             <h2 className="smallTitle">
-              Pessoas da comunidade ({followers.length})
+              Pessoas da comunidade <span style={{ color: '#2E7BB4' }}>({followers.length})</span>
             </h2>
             <ul>
               {followers.map((follower) => {
@@ -116,7 +117,7 @@ export default function Home() {
             {communities.length > 0 ? (
               <>
                 <h2 className="smallTitle">
-                  Minhas comunidades ({communities.length})
+                  Minhas comunidades <span style={{ color: '#2E7BB4' }}>({communities.length})</span>
                 </h2>
                 <ul>
                   {communities.map((community, index) => {
