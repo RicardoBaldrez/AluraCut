@@ -39,7 +39,7 @@ export default function Home() {
 
   return (
     <>
-      <AlurakutMenu />
+      <AlurakutMenu githubUser={githubUser} />
       <MainGrid>
         <div className="profileArea" style={{ gridArea: "profileArea" }}>
           <ProfileSidebar githubUser={githubUser} />
@@ -113,27 +113,28 @@ export default function Home() {
           </ProfileRelationsBoxWrapper>
 
           <ProfileRelationsBoxWrapper>
-          {communities.length > 0 ? (
-            <>
-              <h2 className="smallTitle">
-                Minhas comunidades ({communities.length})
-              </h2>
-              <ul>
-                {communities.map((community, index) => {
-                  return (
-                    <li key={`key-element__${index}`}>
-                      <a href="#">
-                        <img src={community.image} />
-                        <span>{community.title}</span>
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
-            </>  
-          ) : (
-            "Nenhuma comunidade"
-          )}
+            {communities.length > 0 ? (
+              <>
+                <h2 className="smallTitle">
+                  Minhas comunidades ({communities.length})
+                </h2>
+                <ul>
+                  {communities.map((community, index) => {
+                    return (
+                      <li key={`key-element__${index}`}>
+                        <a href="#">
+                          <img src={community.image} />
+                          <span>{community.title}</span>
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </>  
+            ) : (
+              "Nenhuma comunidade"
+            )
+          }
           </ProfileRelationsBoxWrapper>
         </div>
       </MainGrid>
