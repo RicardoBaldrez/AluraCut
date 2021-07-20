@@ -48,8 +48,8 @@ function ProfileRelationsBox(props) {
   )
 }
 
-export default function Home() {
-  const githubUser = "RicardoBaldrez";
+export default function Home(props) {
+  const githubUser = props.githubUser;
   const [followers, setFollowers] = useState([]);
   const [communities, setCommunities] = useState([]);
 
@@ -180,4 +180,14 @@ export default function Home() {
       </MainGrid>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  console.log('TESTE');
+
+  return {
+    props: {
+      githubUser: 'RicardoBaldrez'
+    }
+  }
 }
