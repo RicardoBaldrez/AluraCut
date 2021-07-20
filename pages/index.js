@@ -59,7 +59,7 @@ export default function Home() {
       .then((result) => setFollowers(result))
       .catch((error) => console.error(error));
 
-    // Dato -> API GraphQl
+    // Dato -> API GraphQl -> Trazendo todas as comunidades
     fetch('https://graphql.datocms.com/', {
       method: 'POST',
       headers: {
@@ -112,11 +112,23 @@ export default function Home() {
                 const dataForm = new FormData(e.target);
                 const newCommunity = {
                   title: dataForm.get("title"), // Pegando o valor do input com nome 'title'
-                  image: dataForm.get("image"), // Pegando o valor do input com nome 'image'
+                  imageUrl: dataForm.get("image"), // Pegando o valor do input com nome 'image'
+                  creatorSlug: githubUser,
                 };
-                const updatedCommunities = [...communities, newCommunity];
-                setCommunities(updatedCommunities);
-                e.target.reset();
+
+                fetch('/api/community', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(newCommunity)
+                })
+                .then(async (res) => {
+                  const data = await res.json();
+                  const updatedCommunities = [...communities, data.registerCreated];
+                  setCommunities(updatedCommunities);
+                  e.target.reset();
+                })
               }}
             >
               <input
