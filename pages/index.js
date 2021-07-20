@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import nookies from 'nookies';
+import jwt from 'jsonwebtoken'
 import MainGrid from "../src/components/MainGrid";
 import Box from "../src/components/Box";
 import {
@@ -183,12 +184,36 @@ export default function Home(props) {
   );
 }
 
+/**
+ * Componente do próprio 'Next' que é chamado antes do componente à cima ser renderiza
+ * Assim podendo ter uma ação de verificação ... 
+ */
 export async function getServerSideProps(context) {
   const token = nookies.get(context).USER_TOKEN;
 
+  // API de autenticação
+  const { isAuthenticated } = await fetch('https://alurakut.vercel.app/api/auth', {
+    headers: {
+      Authorization: token
+    }
+  })
+  .then((res) => res.json());
+  console.log(isAuthenticated);
+
+  if(!isAuthenticated) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false
+      }
+    }
+  }
+
+  // Decodificando o token através do pacote jsonwebtoken
+  const { githubUser } = jwt.decode(token);
   return {
     props: {
-      githubUser: 'RicardoBaldrez'
+      githubUser
     }
   }
 }
