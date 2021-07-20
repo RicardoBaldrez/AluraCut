@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import nookies from 'nookies';
 import MainGrid from "../src/components/MainGrid";
 import Box from "../src/components/Box";
 import {
@@ -183,7 +184,7 @@ export default function Home(props) {
 }
 
 export async function getServerSideProps(context) {
-  console.log('TESTE');
+  const token = nookies.get(context).USER_TOKEN;
 
   return {
     props: {
